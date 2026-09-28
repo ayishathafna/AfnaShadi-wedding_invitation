@@ -7,25 +7,46 @@ document.addEventListener(
     function () {
 
 const music = document.getElementById("weddingMusic");
-const musicButton = document.getElementById("musicButton");
 
-musicButton.addEventListener("click", function () {
+// Set the music volume
+music.volume = 0.7;
 
-    if (music.paused) {
+// Try to start music automatically when invitation opens
+window.addEventListener("load", function () {
 
-        music.play();
+    music.play().catch(function () {
 
-        musicButton.classList.add("playing");
-        musicButton.textContent = "♫";
+        // Mobile browsers may block autoplay.
+        // Start music on the visitor's first tap.
+        const startMusic = function () {
 
-    } else {
+            music.play().catch(function () {});
 
-        music.pause();
+            document.removeEventListener(
+                "touchstart",
+                startMusic
+            );
 
-        musicButton.classList.remove("playing");
-        musicButton.textContent = "♪";
+            document.removeEventListener(
+                "click",
+                startMusic
+            );
 
-    }
+        };
+
+        document.addEventListener(
+            "touchstart",
+            startMusic,
+            { once: true }
+        );
+
+        document.addEventListener(
+            "click",
+            startMusic,
+            { once: true }
+        );
+
+    });
 
 });
 
