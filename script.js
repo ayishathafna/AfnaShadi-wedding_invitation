@@ -6,49 +6,66 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-const music = document.getElementById("weddingMusic");
+        /* =================================================
+           BACKGROUND MUSIC
+        ================================================= */
 
-// Set the music volume
-music.volume = 0.7;
+        const music =
+            document.getElementById("weddingMusic");
 
-// Try to start music automatically when invitation opens
-window.addEventListener("load", function () {
+        if (music) {
 
-    music.play().catch(function () {
+            // Set music volume
+            music.volume = 0.7;
 
-        // Mobile browsers may block autoplay.
-        // Start music on the visitor's first tap.
-        const startMusic = function () {
+            // Try to start music
+            function startMusic() {
 
-            music.play().catch(function () {});
+                music.play().then(
+                    function () {
+                        console.log("Wedding music started.");
+                    }
+                ).catch(
+                    function (error) {
+                        console.log(
+                            "Autoplay blocked by browser:",
+                            error
+                        );
+                    }
+                );
 
-            document.removeEventListener(
+            }
+
+            /*
+             * Try autoplay when the page loads.
+             */
+            window.addEventListener(
+                "load",
+                function () {
+                    startMusic();
+                }
+            );
+
+
+            /*
+             * If the browser blocks autoplay,
+             * start music when the visitor first
+             * touches or clicks the invitation.
+             */
+            document.addEventListener(
                 "touchstart",
-                startMusic
+                startMusic,
+                { once: true }
             );
 
-            document.removeEventListener(
+            document.addEventListener(
                 "click",
-                startMusic
+                startMusic,
+                { once: true }
             );
 
-        };
+        }
 
-        document.addEventListener(
-            "touchstart",
-            startMusic,
-            { once: true }
-        );
-
-        document.addEventListener(
-            "click",
-            startMusic,
-            { once: true }
-        );
-
-    });
-
-});
 
         /* =================================================
            SCROLL REVEAL
@@ -113,7 +130,6 @@ window.addEventListener("load", function () {
         );
 
 
-
         /* =================================================
            SMOOTH SCROLL
         ================================================= */
@@ -174,7 +190,6 @@ window.addEventListener("load", function () {
             );
 
 
-
         /* =================================================
            PARALLAX FLOWERS
         ================================================= */
@@ -217,7 +232,6 @@ window.addEventListener("load", function () {
                 passive: true
             }
         );
-
 
     }
 );
