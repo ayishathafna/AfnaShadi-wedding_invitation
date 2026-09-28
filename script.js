@@ -6,6 +6,28 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
+const music = document.getElementById("weddingMusic");
+const musicButton = document.getElementById("musicButton");
+
+musicButton.addEventListener("click", function () {
+
+    if (music.paused) {
+
+        music.play();
+
+        musicButton.classList.add("playing");
+        musicButton.textContent = "♫";
+
+    } else {
+
+        music.pause();
+
+        musicButton.classList.remove("playing");
+        musicButton.textContent = "♪";
+
+    }
+
+});
 
         /* =================================================
            SCROLL REVEAL
